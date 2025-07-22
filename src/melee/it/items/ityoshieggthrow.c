@@ -5,6 +5,7 @@
 #include "it/it_266F.h"
 #include "it/it_26B1.h"
 #include "it/it_2725.h"
+#include "it/itCommonItems.h"
 #include "it/item.h"
 
 // Forward declaration required. (if sorting by address).
@@ -27,11 +28,9 @@ void it_802B2890(Item_GObj* item_gobj)
 Item_GObj* it_802B2A10(Item_GObj* parent, Point3d* pos, enum Fighter_Part arg2,
                        f32 dir)
 {
-    f32 _padding_1;
     SpawnItem spawn_item;
-    f32 _padding_2;
-    f32 _padding_3;
     Item_GObj* temp_r3;
+    PAD_STACK(0x8);
 
     spawn_item.kind = It_Kind_Yoshi_EggThrow;
     spawn_item.prev_pos = *pos;
@@ -100,28 +99,30 @@ bool it_802B2C04(Item_GObj* item_gobj)
     return 0;
 }
 
-void it_802B2C38(Item_GObj* item_gobj)
+void it_802B2C38(Item_GObj* arg0)
 {
-    // HACK: Commented out compile erroring code.
     f32 sp1C;
-    HSD_JObj* temp_r29;
-    void* temp_r30;
-    Item* item = GET_ITEM((HSD_GObj*) item_gobj);
+    HSD_JObj* joint_obj;
+    itUnkAttributes* attr;
+    Item* item;
 
-    temp_r29 = item_gobj->hsd_obj;
-    // temp_r30 = temp_r31->unkC4->unk4;
-    Item_80268E5C((HSD_GObj*) item_gobj, 2, 0x12);
-    it_8026BB44(item_gobj);
-    it_80273598(item_gobj, 0xC, 0xA);
-    it_8026BD24(item_gobj);
-    it_8027518C(item_gobj);
-    it_80273454(item_gobj);
-    // temp_r31->unkD44 = (f32) temp_r30->unk4;
-    // efAsync_Spawn(arg0, arg0->user_data + 0xBC0, 1U, 0x4CEU, (HSD_GObj* )
-    // temp_r29);
-    sp1C = ONE;
-    // efAsync_Spawn(arg0, arg0->user_data + 0xBC0, 4U, 0x4CFU, (HSD_GObj* )
-    // temp_r29, &sp1C);
+    PAD_STACK(0xB);
+
+    item = arg0->user_data;
+    joint_obj = arg0->hsd_obj;
+    attr = item->xC4_article_data->x4_specialAttributes;
+    Item_80268E5C((HSD_GObj*) arg0, 2, 0x12);
+    it_8026BB44(arg0);
+    it_80273598(arg0, 0xC, 0xA);
+    it_8026BD24(arg0);
+    it_8027518C(arg0);
+    it_80273454(arg0);
+    item->xD44_lifeTimer = attr->x4_float;
+    efAsync_Spawn((HSD_GObj*) arg0->hsd_obj, arg0->user_data + 0xBC0, 1U,
+                  0x4CEU, joint_obj);
+    sp1C = 1;
+    efAsync_Spawn((HSD_GObj*) arg0->hsd_obj, arg0->user_data + 0xBC0, 4U,
+                  0x4CFU, joint_obj, &sp1C);
     Item_8026AE84((Item*) item, 0x44618, 0x7F, 0x40);
 }
 
@@ -137,10 +138,9 @@ bool it_802B2D50(Item_GObj* item_gobj)
     HSD_JObj* joint_obj;
     Item* item;
     itUnkAttributes* attr;
-    u64 padding;
-    u64 padding2;
+    PAD_STACK(0xB);
 
-    item = GET_ITEM((HSD_GObj*) item_gobj); // lwz _ 0x2c
+    item = GET_ITEM((HSD_GObj*) item_gobj);
     if (item->msid != 2) {
         joint_obj = GET_JOBJ((HSD_GObj*) item_gobj);
         attr = item->xC4_article_data->x4_specialAttributes;
