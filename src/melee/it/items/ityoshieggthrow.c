@@ -1,5 +1,6 @@
 #include "ityoshieggthrow.h"
 
+#include "ef/efasync.h"
 #include "it/inlines.h"
 #include "it/it_266F.h"
 #include "it/it_26B1.h"
@@ -129,28 +130,32 @@ void it_802B2D30(Item_GObj* item_gobj)
     it_802751D8(item_gobj);
 }
 
+// TODO: Slightly incorrect. 75% matching
 bool it_802B2D50(Item_GObj* item_gobj)
 {
     f32 sp20;
-    HSD_JObj* temp_r30;
-    void* temp_r31;
-    Item* item = GET_ITEM((HSD_GObj*) item_gobj);
+    HSD_JObj* joint_obj;
+    Item* item;
+    itUnkAttributes* attr;
+    u64 padding;
+    u64 padding2;
 
-    if ((s32) item->msid != 2) {
-        temp_r30 = item_gobj->hsd_obj;
-        temp_r31 = item->xC4_article_data->x4_specialAttributes;
+    item = GET_ITEM((HSD_GObj*) item_gobj); // lwz _ 0x2c
+    if (item->msid != 2) {
+        joint_obj = GET_JOBJ((HSD_GObj*) item_gobj);
+        attr = item->xC4_article_data->x4_specialAttributes;
         Item_80268E5C((HSD_GObj*) item_gobj, 2, 0x12);
         it_8026BB44(item_gobj);
         it_80273598(item_gobj, 0xC, 0xA);
         it_8026BD24(item_gobj);
         it_8027518C(item_gobj);
         it_80273454(item_gobj);
-        // temp_r29->xD44_lifeTimer = temp_r31->unk4;
-        // efAsync_Spawn((HSD_GObj* ) arg0, &arg0->user_data->unkBC0, 1U,
-        // 0x4CEU, temp_r30);
-        sp20 = ONE;
-        // efAsync_Spawn((HSD_GObj* ) arg0, &arg0->user_data->unkBC0, 4U,
-        // 0x4CFU, temp_r30, &sp20);
+        item->xD44_lifeTimer = attr->x4_float;
+        efAsync_Spawn((HSD_GObj*) item_gobj, &item->xBC0, 1U, 0x4CEU,
+                      joint_obj);
+        sp20 = 1.0f;
+        efAsync_Spawn((HSD_GObj*) item_gobj, &item->xBC0, 4U, 0x4CFU,
+                      joint_obj, &sp20);
         Item_8026AE84(item, 0x44618, 0x7F, 0x40);
     }
     return 0;
