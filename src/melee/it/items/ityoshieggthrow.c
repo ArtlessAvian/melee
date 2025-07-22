@@ -23,44 +23,29 @@ void it_802B2890(Item_GObj* item_gobj)
     Item_8026A8EC(item_gobj);
 }
 
-// TODO: Find type of arg1.
-Item_GObj* it_802B2A10(Item_GObj* arg0, void* arg1, enum Fighter_Part arg2,
-                       f32 arg8)
+Item_GObj* it_802B2A10(Item_GObj* parent, Point3d* pos, enum Fighter_Part arg2,
+                       f32 dir)
 {
-    // HACK: Commented out compile erroring code.
-    // u8 sp64;
-    s32 sp60;
-    s16 sp5C;
-    f32 sp58;
-    f32 sp54;
-    f32 sp50;
-    f32 sp4C;
-    s32 sp48;
-    s32 sp44;
-    s32 sp40;
-    Point3d sp34;
-    s32 sp28;
-    Item_GObj* sp24;
-    Item_GObj* sp20;
+    f32 _padding_1;
+    SpawnItem spawn_item;
+    f32 _padding_2;
+    f32 _padding_3;
     Item_GObj* temp_r3;
 
-    sp28 = 0x56;
-    // sp40 = arg1->unk0;
-    // sp44 = arg1->unk4;
-    // sp48 = arg1->unk8;
-    it_8026BB68(arg0, &sp34);
-    sp58 = arg8;
-    sp5C = 0;
-    sp54 = ZERO;
-    sp50 = ZERO;
-    sp4C = ZERO;
-    sp20 = arg0;
-    sp24 = sp20;
-    // sp64 |= 0x80;
-    sp60 = 0;
-    temp_r3 = Item_80268B18((SpawnItem*) &sp20);
+    spawn_item.kind = It_Kind_Yoshi_EggThrow;
+    spawn_item.prev_pos = *pos;
+    it_8026BB68(parent, &spawn_item.pos);
+    spawn_item.facing_dir = dir;
+    spawn_item.x3C_damage = 0;
+    spawn_item.vel.x = spawn_item.vel.y = spawn_item.vel.z = 0;
+    spawn_item.x0_parent_gobj = (HSD_GObj*) parent;
+    spawn_item.x4_parent_gobj2 = spawn_item.x0_parent_gobj;
+    spawn_item.x44_flag.b0 = true;
+    spawn_item.x40 = 0;
+
+    temp_r3 = Item_80268B18(&spawn_item);
     if (temp_r3 != NULL) {
-        Item_8026AB54((HSD_GObj*) temp_r3, (HSD_GObj*) arg0, arg2);
+        Item_8026AB54((HSD_GObj*) temp_r3, (HSD_GObj*) parent, arg2);
     }
     return temp_r3;
 }
