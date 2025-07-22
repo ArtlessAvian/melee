@@ -19,7 +19,7 @@ void it_802B2890(Item_GObj* item_gobj)
 {
     Item* item = GET_ITEM((HSD_GObj*) item_gobj);
     item->owner = NULL;
-    item->xDC8_word.flags.x13 = true;
+    item->xDC8_word.flags.x13 = false;
     Item_8026A8EC(item_gobj);
 }
 
@@ -59,7 +59,7 @@ void it_802B2B08(Item_GObj* item_gobj)
 {
     Item* item = GET_ITEM((HSD_GObj*) item_gobj);
     f32* unkc4_unk4 = item->xC4_article_data->x4_specialAttributes;
-    Item_80268E5C(item_gobj, 1, ITEM_ANIM_UPDATE);
+    Item_80268E5C((HSD_GObj*) item_gobj, 1, ITEM_ANIM_UPDATE);
     it_80275158(item_gobj, *unkc4_unk4);
 }
 
@@ -93,7 +93,7 @@ void it_802B2BA8(Item_GObj* item_gobj)
 bool it_802B2C04(Item_GObj* item_gobj)
 {
     Item* item = GET_ITEM((HSD_GObj*) item_gobj);
-    if ((s32) item->msid != 2) {
+    if ((enum_t) item->msid != 2) {
         it_802B2C38(item_gobj);
     }
     return 0;
